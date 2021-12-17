@@ -26,6 +26,13 @@ func AuthorizeController(c *gin.Context) {
 		form = v.(url.Values)
 	}
 	r.Form = form
+	//client_id:[222222]
+	//code_challenge:[jZae727K08KaOmKSgOaGzww_XVqGr_PKEgIMkjrcbJI=]
+	//code_challenge_method:[S256]
+	//redirect_uri:[http://localhost:9094/oauth2]
+	//response_type:[code]
+	//scope:[all]
+	//state:[xyz]
 	fmt.Printf("request map        %v\n", form)
 	store.Delete("ReturnUri")
 	store.Save()

@@ -19,5 +19,6 @@ func LoginRouterInit(r *gin.Engine) {
 		loginRouter.GET("/login", controller.LoginHtmlController)
 		loginRouter.POST("/login", controller.LoginController)
 		loginRouter.GET("/auth", controller.AuthController)
+		loginRouter.GET("/test", controller.TestController)
 	}
 }

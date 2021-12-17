@@ -32,3 +32,13 @@ go run .\server_gin.go
 认证成功 返回token
 
 ![image-20211215155300360](pic/pic1.png)
+
+```
+{
+  "access_token": "MTQ2MGUXODATOGNJYI0ZZJYWLTLHMJMTNDCWYZBINWJLYZJH",
+  "token_type": "Bearer",
+  "refresh_token": "YWYXOWQWYMQTMTHHYS01NZU4LTGYNWUTNDJIYZFJNGE1NMY2",
+  "expiry": "2021-12-15T18:01:20.4626723+08:00"
+}
+```
+

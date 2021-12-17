@@ -267,7 +267,7 @@ func (s *Server) HandleAuthorizeRequest(w http.ResponseWriter, r *http.Request) 
 		return nil
 	}
 	req.UserID = userID
-	fmt.Println("22222222222222")
+	fmt.Println("22222222222222" + userID)
 	// specify the scope of authorization
 	if fn := s.AuthorizeScopeHandler; fn != nil {
 		scope, err := fn(w, r)

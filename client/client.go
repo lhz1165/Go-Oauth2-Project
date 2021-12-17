@@ -36,14 +36,15 @@ var (
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		u := config.AuthCodeURL("xyz",
-			oauth2.SetAuthURLParam("code_challenge", genCodeChallengeS256("s256example")),
+			oauth2.SetAuthURLParam("code_challenge", genCodeChallengeS256("123456")),
 			oauth2.SetAuthURLParam("code_challenge_method", "S256"))
+		fmt.Printf("%v\n", u)
+		//u := config.AuthCodeURL("xyz")
 		http.Redirect(w, r, u, http.StatusFound)
 	})
 	/**
 	这一步应该是在请求头里设置token，并重定向到首页
 	**/
-
 	http.HandleFunc("/oauth2", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		state := r.Form.Get("state")
@@ -56,7 +57,8 @@ func main() {
 			http.Error(w, "Code not found", http.StatusBadRequest)
 			return
 		}
-		token, err := config.Exchange(context.Background(), code, oauth2.SetAuthURLParam("code_verifier", "s256example"))
+		token, err := config.Exchange(context.Background(), code, oauth2.SetAuthURLParam("code_verifier", "123456"))
+		//token, err := config.Exchange(context.Background(), code)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -66,6 +68,7 @@ func main() {
 		e := json.NewEncoder(w)
 		e.SetIndent("", "  ")
 		e.Encode(token)
+
 		// data, _ := json.Marshal(token)
 		// w.Write(data)
 	})
@@ -89,7 +92,7 @@ func main() {
 		e.Encode(token)
 	})
 
-	http.HandleFunc("/try", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/me", func(w http.ResponseWriter, r *http.Request) {
 		if globalToken == nil {
 			http.Redirect(w, r, "/", http.StatusFound)
 			return

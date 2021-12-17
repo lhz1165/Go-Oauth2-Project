@@ -196,6 +196,9 @@ func RetrieveToken(ctx context.Context, clientID, clientSecret, tokenURL string,
 		}
 	}
 	req, err := newTokenRequest(tokenURL, clientID, clientSecret, v, authStyle)
+	header := req.Header
+	fmt.Printf("Header全部数据:%v", header)
+	fmt.Printf("请求参数全部数据:%v", v)
 	if err != nil {
 		return nil, err
 	}
