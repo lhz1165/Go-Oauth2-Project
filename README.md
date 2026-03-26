@@ -42,3 +42,43 @@ go run .\server_gin.go
 }
 ```
 
+## 流程
+
+客户端服务器监听9094端口
+
+认证服务器监听9096端口
+
+### 第一步
+
+用户访问**客户端** http://localhost:9094/ 
+9094的/ 这个接口，会构造新的url，重定向到端口 9096 的认证 的服务器,实际就是oauth2协议的第一个接口/authorize
+client_id:必填
+
+response_type：必填
+
+redirect_uri：可选（没有服务器有默认的）
+
+例如
+
+redirect_uri=http://localhost:9094/oauth2
+
+```
+http://localhost:9096/oauth/authorize?client_id=222222&redirect_uri=http%3A%2F%2Flocalhost%3A9094%2Foauth2&response_type=code&scope=all&state=xyz
+```
+
+### 第二步
+
+进去**认证服务器**/authoriz接口
+
+1. 首先判断有没有登录过，登陆过直接跳到第三步
+2. 如果没有登录过，那么重定向到认证服务器的登录页面（前端页面），输入完账号密码，点击登录，进入/login后端校验接口，之后再重定向到是否**允许授权**页面(前端页面)，然后再次重定向/authorize(此时已经登录过了)
+3. 生成code和token，一一对应
+4. 重定向到redirect_uri并且带上code(http://localhost:9094/oauth2?code =code )
+
+## 第三步
+
+客户端服务器
+
+进入重定向的接口，
+通过传入的code，再加上client_id,client_secret等参数去认证服务器的接口/token  请求一个token，
+然后返回出来
