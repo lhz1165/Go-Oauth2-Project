@@ -44,6 +44,8 @@ go run .\server_gin.go
 
 ## 流程
 
+![image-20211215155344440](pic/timese.png)
+
 客户端服务器监听9094端口
 
 认证服务器监听9096端口
@@ -70,10 +72,14 @@ http://localhost:9096/oauth/authorize?client_id=222222&redirect_uri=http%3A%2F%2
 
 进去**认证服务器**/authoriz接口
 
-1. 首先判断有没有登录过，登陆过直接跳到第三步
-2. 如果没有登录过，那么重定向到认证服务器的登录页面（前端页面），输入完账号密码，点击登录，进入/login后端校验接口，之后再重定向到是否**允许授权**页面(前端页面)，然后再次重定向/authorize(此时已经登录过了)
-3. 生成code和token，一一对应
-4. 重定向到redirect_uri并且带上code(http://localhost:9094/oauth2?code =code )
+1. 首先判断有没有登录过
+   1. 没登陆过直接跳转到登录页面
+   2. 输入完账号密码，点击登录，进入后端校验接口
+   3. 校验完成，再重定向到是否**允许授权**页面(前端页面)，
+   4. 点击确认授权后，再次重定向/authorize
+
+2. 生成code和token，一一对应
+3. 重定向到redirect_uri并且带上code(http://localhost:9094/oauth2?code =code )
 
 ## 第三步
 
@@ -82,3 +88,4 @@ http://localhost:9096/oauth/authorize?client_id=222222&redirect_uri=http%3A%2F%2
 进入重定向的接口，
 通过传入的code，再加上client_id,client_secret等参数去认证服务器的接口/token  请求一个token，
 然后返回出来
+
